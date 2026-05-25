@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server'
+import { GoogleGenAI } from '@google/genai'
+
+const ai = new GoogleGenAI({})
 
 export async function POST(request: Request) {
     try {
@@ -13,14 +16,23 @@ export async function POST(request: Request) {
             // })
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: [
+                {
+                    role: 'user',
+                    parts: [
+                        { text: `다음 내용을 핵심만 요약해줘: \n\n${content}`}
+                    ]
+                }
+            ],
+            config: { temperature: 0.5 }
+        })
 
-        const mockSummary = `[AI 요약 결과]
-        - 작성하신 데이터가 백엔드(/api/summary) 서버에 성공적으로 도달했습니다!
-        - 원본 글자 수: 총 ${content.length}자
-        - 전달된 핵심 내용: "${content.substring(0, 20)}..."`
+        const summary = response.text
 
-        return NextResponse.json({ summary: mockSummary }) // status의 default는 200 (정상)
+        return NextResponse.json({ summary: summary }) // status의 default는 200 (정상)
+
     } catch (error) {
         console.error('서버 에러:', error) // 서버 컴 터미널에 에러 메세지
         return NextResponse.json({ error: '서버 에러가 발생했습니다.'}, { status: 500})
