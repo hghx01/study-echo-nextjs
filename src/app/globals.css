@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 연한 크림빛 다이어리 속지 색상 */
+  --background: #FDFBF7; 
+  /* 가독성이 좋으면서 부드러운 짙은 돌색 */
+  --foreground: #292524; 
 }
 
 @theme inline {
@@ -14,8 +16,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* 밤에 봐도 눈이 아프지 않은 깊은 밤하늘색 */
+    --background: #181614;
+    /* 은은하게 밝은 회백색 */
+    --foreground: #E7E5E4;
   }
 }
 
@@ -23,4 +27,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* 부드러운 글자 렌더링을 위한 옵션 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
